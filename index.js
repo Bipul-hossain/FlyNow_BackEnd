@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import { aroPlanceController } from "./controllers/aroPlanceControllers.js";
+import { destination } from "./controllers/destinationControllers.js";
 
 const app = express();
 app.use(express.json());
@@ -15,6 +17,9 @@ mongoose
       err
     )
   );
+
+app.use("/", aroPlanceController);
+app.use("/", destination);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App Listening on Port ${port}`));
