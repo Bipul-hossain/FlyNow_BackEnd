@@ -12,6 +12,7 @@ const priceSchema = new mongoose.Schema({
 
 const seatShema = new mongoose.Schema({
   seatNumber: Number,
+  allRoads: [String],
   seatClass: { type: String, default: "ecomony" },
   price: [priceSchema],
   bookedRaod: [String],
