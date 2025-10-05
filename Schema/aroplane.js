@@ -24,6 +24,13 @@ const aroPlaneSchema = new mongoose.Schema({
   flightName: String,
   flightRoadGo: [String],
   flightRoadBack: [String],
+  priceList: [
+    new mongoose.Schema({
+      from: String,
+      to: String,
+      price: { type: Number, default: 0 },
+    }),
+  ],
   flightDate: String,
   flightTime: String,
   flightSeat: [seatShema],

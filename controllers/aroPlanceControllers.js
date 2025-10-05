@@ -16,6 +16,7 @@ router.post("/api/aroplane", async (req, res) => {
     flightDate: req.body.flightDate,
     flightTime: req.body.flightTime,
     flightSeat: req.body.flightSeat,
+    priceList: req.body.priceList,
   });
   const result = await newAroplane.save();
   res.send(result);
