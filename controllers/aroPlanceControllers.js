@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import express from "express";
 import { aroPlaneSchema } from "../Schema/aroplane.js";
+import {
+  getDestinationFun,
+  postDestinatinFun,
+  updateDestinationFun,
+} from "./destinationControllers.js";
 
 const router = express.Router();
 // Aro_Plnane Model Create
@@ -9,6 +14,21 @@ const AroPlane = mongoose.model("aro_plane_shidules", aroPlaneSchema);
 
 // 1. Post AroPlane Details..
 router.post("/api/aroplane", async (req, res) => {
+  const destinationObject = await getDestinationFun();
+  console.log("destination", destinationObject);
+  if (destinationObject.length === 0) {
+    await postDestinatinFun(req.body.flightRoadGo);
+  } else {
+    for (const country of req.body.flightRoadGo) {
+      if (!destinationObject[0].allDestination.includes(country)) {
+        destinationObject[0].allDestination.push(country);
+      }
+      await updateDestinationFun(
+        destinationObject[0]._id,
+        destinationObject[0].allDestination
+      );
+    }
+  }
   const newAroplane = new AroPlane({
     flightName: req.body.flightName,
     flightRoadGo: req.body.flightRoadGo,
