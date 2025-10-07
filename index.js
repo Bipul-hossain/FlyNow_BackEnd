@@ -7,7 +7,7 @@ import { userController } from "./controllers/userController.js";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ exposedHeaders: ["x-auth-token"] }));
 
 mongoose
   .connect("mongodb://localhost/flynow")
