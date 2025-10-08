@@ -42,4 +42,16 @@ router.post("/api/login", async (req, res) => {
     .send({ userName: user.userName, email: user.email, role: user.role });
 });
 
+router.get("/api/users/me", (req, res) => {
+  console.log(req.headers.token);
+  try {
+    const user = jwt.decode(req.headers.token, "bipul");
+    console.log(user);
+    res.send(user);
+  } catch (error) {
+    console.log("something error");
+    res.status(404);
+  }
+});
+
 export { router as userController };
