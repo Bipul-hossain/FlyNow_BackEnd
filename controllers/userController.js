@@ -9,6 +9,10 @@ const router = express.Router();
 const User = mongoose.model("users", UserSchema);
 
 router.post("/api/users", async (req, res) => {
+  const getUser = await User.findOne({ email: req.body.email });
+  if (getUser) {
+    return res.status(400).send("User Already Register. Change your Email");
+  }
   const user = new User({
     userName: req.body.userName,
     email: req.body.email,
@@ -52,6 +56,26 @@ router.get("/api/users/me", (req, res) => {
     console.log("something error");
     res.status(404);
   }
+});
+
+// update Flight Booked
+router.put("/api/confirmorder", async (req, res) => {
+  const user = await User.updateOne(
+    { email: req.body.email },
+    { $push: { bookedFlight: req.body.flightDetails } }
+  );
+  // if (!user) {
+  //   res.status(404).send("Not found user");
+  //   return;
+  // }
+
+  res.send(user);
+});
+
+// getuser with ticket
+router.get("/api/tickets", async (req, res) => {
+  const user = await User.find({ email: req.query.email });
+  res.send(user);
 });
 
 export { router as userController };
